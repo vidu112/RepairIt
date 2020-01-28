@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/repairmen_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/repairmen_repairType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:hint="There will be a repair type"
+        android:textAppearance="?android:textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/repairmen_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:hint="There will be repairmen name"
+        android:textAppearance="?android:textAppearance" />
+
+    <TextView
+        android:id="@+id/repairmen_costPerDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:hint="There will be a cost per day"
+        android:textAppearance="?android:textAppearance" />
+
+    <TextView
+        android:id="@+id/repairmen_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:hint="There will be a rating"
+        android:textAppearance="?android:textAppearance" />
+
+    <Button
+        android:id="@+id/hire_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hire Me" />
+
+</LinearLayout>
