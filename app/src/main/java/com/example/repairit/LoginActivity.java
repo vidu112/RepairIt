@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                intent.putExtra("",)
                                 startActivity(intent);
                             }else if (document.get("Type").equals("Repairman")){
-                                Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), DashBoard.class);
                                 startActivity(intent);
                             }
                         } else {
