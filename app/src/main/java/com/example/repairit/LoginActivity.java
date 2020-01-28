@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText Username,Password;
     private static  String TAG="LoginActivity";
     String UsernameText,PasswordText;
+    private SharedPreferences mpreferences;
+    private SharedPreferences.Editor mEditor;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference docRef;
     private FirebaseAuth mAuth;
@@ -40,14 +44,16 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Username=(EditText)findViewById(R.id.username);
         Password=(EditText)findViewById(R.id.password);
+        mpreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
     }
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        updateUI(currentUser);
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
     public void Login(View view){
         UsernameText = Username.getText().toString();
         PasswordText = Password.getText().toString();
@@ -73,30 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-//        if ((UsernameText.equals("vidu"))&&(PasswordText.equals("123456"))){
-//            Map<String, Object> user = new HashMap<>();
-//            user.put("first", "Ada");
-//            user.put("last", "Lovelace");
-//            user.put("born", 1815);
-//            db.collection("users")
-//                    .add(user)
-//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                        @Override
-//                        public void onSuccess(DocumentReference documentReference) {
-//                            Log.d("Login", "DocumentSnapshot added with ID: " + documentReference.getId());
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.w("Login", "Error adding document", e);
-//                        }
-//                    });
-//            Intent intent =new Intent(getApplicationContext(), CustomerActivity.class);
-//            startActivity(intent);
-//        }
     }
-    private void updateUI(FirebaseUser user) {
+    private void updateUI(final FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
             docRef = db.collection("Users").document(user.getEmail());
@@ -106,8 +90,16 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+                            mEditor=mpreferences.edit();
+                            mEditor.putString(getString(R.string.user_email),user.getEmail());
+                            mEditor.apply();
+                            mEditor.commit();
                             Log.d(TAG, "DocumentSnapshot data: " + document.get("Type"));
                             if (document.get("Type").equals("Customer")) {
+                                Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
+//                                intent.putExtra("",)
+                                startActivity(intent);
+                            }else if (document.get("Type").equals("Repairman")){
                                 Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
                                 startActivity(intent);
                             }
