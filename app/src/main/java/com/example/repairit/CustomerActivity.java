@@ -31,12 +31,12 @@ import java.util.List;
 public class CustomerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "CustomerActivity";
     private TextView mTextMessage;
-    ArrayList<Repairmen> repairmenList;
-    RepairmenAdapter repairmenAdapter;
-    private String repairmenType = "All";
+    ArrayList<Repairman> repairmanList;
+    RepairmanAdapter repairmanAdapter;
+    private String repairmanType = "All";
     private Spinner repairmanDropDown;
     private SharedPreferences mpreferences;
-    private ListView RepairmenListView;
+    private ListView RepairmanListView;
     private String userEmail;
     private Button search;
     private List<String> typeofRepairman;
@@ -81,10 +81,10 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
         repairmanDropDown.setOnItemSelectedListener(this);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
-        repairmenList = new ArrayList<>();
+        repairmanList = new ArrayList<>();
         typeofRepairman =new ArrayList<>();
-        repairmenAdapter = new RepairmenAdapter(this, R.layout.repairmen_list,repairmenList);
-        RepairmenListView = (ListView) findViewById(R.id.repairmenList);
+        repairmanAdapter = new RepairmanAdapter(this, R.layout.repairman_list, repairmanList);
+        RepairmanListView = (ListView) findViewById(R.id.repairmenList);
         typeofRepairman.add("All");
         ListRepairmen();
         search.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +118,7 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
 
     }
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        repairmenType = parent.getItemAtPosition(pos).toString();
+        repairmanType = parent.getItemAtPosition(pos).toString();
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -133,7 +133,7 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
 
     private void ListRepairmen()
     {
-        repairmenList.clear();
+        repairmanList.clear();
         db.collection("repairmen")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -141,14 +141,15 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.get("repairType").toString().equals(repairmenType)||(repairmenType.equals("All"))) {
-                                    //Log.d(TAG, document.get("fullName").toString());
-                                    Repairmen test = new Repairmen(document.get("fullName").toString(), document.get("repairType").toString()
-                                            , document.get("description").toString(), document.get("rating").toString(), document.get("costPerDay").toString());
-                                    repairmenList.add(test);
+                                if (document.get("repairType").toString().equals(repairmanType)||(repairmanType.equals("All"))) {
+                                    Log.d(TAG, document.get("fullName").toString());
+                                    Repairman test = new Repairman(document.get("fullName").toString(), document.get("repairType").toString()
+                                            , document.get("description").toString(), document.get("rating").toString(), document.get("costPerDay").toString()
+                                            ,document.get("email").toString(),document.getId().toString());
+                                    repairmanList.add(test);
                                 }
                             }
-                            RepairmenListView.setAdapter(repairmenAdapter);
+                            RepairmanListView.setAdapter(repairmanAdapter);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

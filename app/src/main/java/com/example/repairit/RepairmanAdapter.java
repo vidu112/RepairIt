@@ -1,25 +1,19 @@
 package com.example.repairit;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import io.opencensus.common.Function;
 
 
-public class RepairmenAdapter extends ArrayAdapter<Repairmen> {
+public class RepairmanAdapter extends ArrayAdapter<Repairman> {
     private Context mContext;
     private int mResource;
 
@@ -32,7 +26,7 @@ public class RepairmenAdapter extends ArrayAdapter<Repairmen> {
 
     }
 
-    public RepairmenAdapter(Context context, int resource, ArrayList<Repairmen> objects) {
+    public RepairmanAdapter(Context context, int resource, ArrayList<Repairman> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -50,8 +44,10 @@ public class RepairmenAdapter extends ArrayAdapter<Repairmen> {
         final String Thrid = getItem(position).getCostPerDay();
         final String Forth = getItem(position).getRating();
         final String Five = getItem(position).getDescription();
+        final String Email = getItem(position).getEmail();
+        final String ID = getItem(position).getId();
         //final Function Six = getItem(position).getHire();
-        //Repairmen repairmen = new Repairmen(First,Second,Thrid,Forth,Five,Six);
+        //Repairman repairmen = new Repairman(First,Second,Thrid,Forth,Five,Six);
         if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
@@ -61,8 +57,6 @@ public class RepairmenAdapter extends ArrayAdapter<Repairmen> {
             holder.repairmen_costPerDay = (TextView) convertView.findViewById(R.id.repairmen_costPerDay);
             holder.repairmen_rating = (TextView) convertView.findViewById(R.id.repairmen_rating);
             holder.hire_button = (Button) convertView.findViewById(R.id.hire_me);
-
-
             result = convertView;
             convertView.setTag(holder);
         } else{
@@ -79,8 +73,9 @@ public class RepairmenAdapter extends ArrayAdapter<Repairmen> {
             public void onClick(View view)
             {
                 Intent intent = new Intent(mContext, DashBoard.class);
+                intent.putExtra("RepairmanEmail",Email);
+                intent.putExtra("RepairmanID",ID);
                 mContext.startActivity(intent);
-                Log.i(Second,"Working");
             }
         });
 
