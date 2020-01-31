@@ -86,6 +86,7 @@ public class DashBoard extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

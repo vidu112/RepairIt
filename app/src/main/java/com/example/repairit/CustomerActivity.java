@@ -41,6 +41,7 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
     private Button search;
     private List<String> typeofRepairman;
     private SharedPreferences.Editor mEditor;
+
     private  FirebaseFirestore db = FirebaseFirestore.getInstance();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
