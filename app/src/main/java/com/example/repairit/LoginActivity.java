@@ -23,9 +23,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         Username=(EditText)findViewById(R.id.username);
+
         Password=(EditText)findViewById(R.id.password);
         mpreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -75,8 +73,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }

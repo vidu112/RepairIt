@@ -41,6 +41,7 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
     private Button search;
     private List<String> typeofRepairman;
     private SharedPreferences.Editor mEditor;
+
     private  FirebaseFirestore db = FirebaseFirestore.getInstance();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -52,7 +53,7 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
-                    Intent intent = new Intent(getApplicationContext(), DashBoard.class);
+                    Intent intent = new Intent(getApplicationContext(), HireRepairman.class);
                     startActivity(intent);
                     return true;
                 case R.id.navigation_notifications:

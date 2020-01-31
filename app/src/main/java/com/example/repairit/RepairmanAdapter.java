@@ -72,7 +72,7 @@ public class RepairmanAdapter extends ArrayAdapter<Repairman> {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(mContext, DashBoard.class);
+                Intent intent = new Intent(mContext, HireRepairman.class);
                 intent.putExtra("RepairmanEmail",Email);
                 intent.putExtra("RepairmanID",ID);
                 mContext.startActivity(intent);
