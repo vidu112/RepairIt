@@ -23,6 +23,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,9 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
-        Username=(EditText)findViewById(R.id.username);
-
-        Password=(EditText)findViewById(R.id.password);
+        Username = findViewById(R.id.username);
+        Password = findViewById(R.id.password);
         mpreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
     }
@@ -73,13 +75,20 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
+
+                        // ...
                     }
                 });
+    }
+
+    public void Signup(View view) {
+        Intent intent = new Intent(getApplicationContext(), Signup.class);
+        startActivity(intent);
     }
     private void updateUI(final FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
-            docRef = db.collection("Users").document(user.getEmail());
+            docRef = db.collection("users").document(user.getEmail());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -96,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                intent.putExtra("",)
                                 startActivity(intent);
                             }else if (document.get("Type").equals("Repairman")){
-                                Intent intent = new Intent(getApplicationContext(), DashBoard.class);
+                                Intent intent = new Intent(getApplicationContext(), HireRepairman.class);
                                 startActivity(intent);
                             }
                         } else {
@@ -107,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
-
 //            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
 //            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 

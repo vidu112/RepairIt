@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HireRepairman"></activity>
-        <activity android:name=".DashBoard" />
+        <activity android:name=".Signup"></activity>
+        <activity android:name=".HireRepairman" />
         <activity
             android:name=".CustomerActivity"
             android:label="@string/title_activity_main" />

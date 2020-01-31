@@ -7,6 +7,8 @@ import android.os.Bundle;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,10 +40,11 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
     private SharedPreferences mpreferences;
     private ListView RepairmanListView;
     private String userEmail;
+    FirebaseUser currentUser;
     private Button search;
     private List<String> typeofRepairman;
     private SharedPreferences.Editor mEditor;
-
+    private FirebaseAuth mAuth;
     private  FirebaseFirestore db = FirebaseFirestore.getInstance();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,9 +76,11 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_customer_activity);
         mpreferences= PreferenceManager.getDefaultSharedPreferences(this);
         //mEditor=mpreferences.edit();
+        mAuth = FirebaseAuth.getInstance();
+
         userEmail=mpreferences.getString(getString(R.string.user_email),"");
         search = findViewById(R.id.search);
         repairmanDropDown = findViewById(R.id.repairmen_drop_down);
@@ -85,7 +90,7 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
         repairmanList = new ArrayList<>();
         typeofRepairman =new ArrayList<>();
         repairmanAdapter = new RepairmanAdapter(this, R.layout.repairman_list, repairmanList);
-        RepairmanListView = (ListView) findViewById(R.id.repairmenList);
+        RepairmanListView = findViewById(R.id.repairmenList);
         typeofRepairman.add("All");
         ListRepairmen();
         search.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +137,13 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
         repairmanDropDown.setAdapter(dataAdapter);
     }
 
+    public void SignOut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                                intent.putExtra("",)
+        startActivity(intent);
+    }
+
     private void ListRepairmen()
     {
         repairmanList.clear();
@@ -146,7 +158,7 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
                                     Log.d(TAG, document.get("fullName").toString());
                                     Repairman test = new Repairman(document.get("fullName").toString(), document.get("repairType").toString()
                                             , document.get("description").toString(), document.get("rating").toString(), document.get("costPerDay").toString()
-                                            ,document.get("email").toString(),document.getId().toString());
+                                            , document.get("email").toString(), document.getId());
                                     repairmanList.add(test);
                                 }
                             }

@@ -32,13 +32,10 @@ public class RepairmanAdapter extends ArrayAdapter<Repairman> {
         mResource = resource;
     }
 
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         ViewHolder holder;
         final View result;
-
         final String First = getItem(position).getRepairType();
         final String Second = getItem(position).getFullName();
         final String Thrid = getItem(position).getCostPerDay();
@@ -52,11 +49,11 @@ public class RepairmanAdapter extends ArrayAdapter<Repairman> {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
             holder= new ViewHolder();
-            holder.repairmen_repairType = (TextView) convertView.findViewById(R.id.repairmen_repairType);
-            holder.repairmen_name = (TextView) convertView.findViewById(R.id.repairmen_name);
-            holder.repairmen_costPerDay = (TextView) convertView.findViewById(R.id.repairmen_costPerDay);
-            holder.repairmen_rating = (TextView) convertView.findViewById(R.id.repairmen_rating);
-            holder.hire_button = (Button) convertView.findViewById(R.id.hire_me);
+            holder.repairmen_repairType = convertView.findViewById(R.id.repairmen_repairType);
+            holder.repairmen_name = convertView.findViewById(R.id.repairmen_name);
+            holder.repairmen_costPerDay = convertView.findViewById(R.id.repairmen_costPerDay);
+            holder.repairmen_rating = convertView.findViewById(R.id.repairmen_rating);
+            holder.hire_button = convertView.findViewById(R.id.hire_me);
             result = convertView;
             convertView.setTag(holder);
         } else{
