@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class RepairmanAdapter extends ArrayAdapter<Repairman> {
@@ -51,8 +52,8 @@ public class RepairmanAdapter extends ArrayAdapter<Repairman> {
             holder= new ViewHolder();
             holder.repairmen_repairType = convertView.findViewById(R.id.repairmen_repairType);
             holder.repairmen_name = convertView.findViewById(R.id.repairmen_name);
-            holder.repairmen_costPerDay = convertView.findViewById(R.id.repairmen_costPerDay);
-            holder.repairmen_rating = convertView.findViewById(R.id.repairmen_rating);
+            holder.repairmen_costPerDay = convertView.findViewById(R.id.price);
+            holder.repairmen_rating = convertView.findViewById(R.id.date);
             holder.hire_button = convertView.findViewById(R.id.hire_me);
             result = convertView;
             convertView.setTag(holder);
@@ -81,5 +82,6 @@ public class RepairmanAdapter extends ArrayAdapter<Repairman> {
 
         return convertView;
     }
+
 
 }

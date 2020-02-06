@@ -29,13 +29,13 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText Username,Password;
+    private EditText Username, Password;
     private static  String TAG="LoginActivity";
-    String UsernameText,PasswordText;
+    private String UsernameText, PasswordText;
     private SharedPreferences mpreferences;
     private SharedPreferences.Editor mEditor;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference docRef;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private DocumentReference docRef;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(final FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
-            docRef = db.collection("users").document(user.getEmail());
+            docRef = db.collection("Users").document(user.getEmail());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -97,14 +97,14 @@ public class LoginActivity extends AppCompatActivity {
                         if (document.exists()) {
                             mEditor=mpreferences.edit();
                             mEditor.putString(getString(R.string.user_email),user.getEmail());
+                            mEditor.putString(getString(R.string.user_id), document.get("customerID").toString());
                             mEditor.apply();
                             mEditor.commit();
-                            Log.d(TAG, "DocumentSnapshot data: " + document.get("Type"));
-                            if (document.get("Type").equals("Customer")) {
+                            //Log.d(TAG, "DocumentSnapshot data: " + document.get("Type"));
+                            if (document.get("type").equals("Customer")) {
                                 Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
-//                                intent.putExtra("",)
                                 startActivity(intent);
-                            }else if (document.get("Type").equals("Repairman")){
+                            } else if (document.get("type").equals("Repairman")) {
                                 Intent intent = new Intent(getApplicationContext(), HireRepairman.class);
                                 startActivity(intent);
                             }
