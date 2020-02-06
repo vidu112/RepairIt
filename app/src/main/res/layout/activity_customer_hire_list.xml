@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/repairmen_list_item"
+    android:id="@+id/customer_repairmen_linear_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="200dp"
+    android:layout_marginTop="10dp"
+    android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/repairmen_repairType"
+        android:id="@+id/cus_repairmen_repairType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
@@ -15,7 +17,7 @@
         android:textAppearance="?android:textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/repairmen_name"
+        android:id="@+id/cus_repairmen_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -23,25 +25,19 @@
         android:textAppearance="?android:textAppearance" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/cus_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        android:hint="There will be a cost per day"
+        android:hint="There will be the price"
         android:textAppearance="?android:textAppearance" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/cus_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        android:hint="There will be a rating"
+        android:hint="There will be the date"
         android:textAppearance="?android:textAppearance" />
-
-    <Button
-        android:id="@+id/hire_me"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hire Me" />
 
 </LinearLayout>

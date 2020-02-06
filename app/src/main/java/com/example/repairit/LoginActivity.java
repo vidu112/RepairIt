@@ -29,14 +29,15 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText Username,Password;
+    private EditText Username, Password;
     private static  String TAG="LoginActivity";
-    String UsernameText,PasswordText;
+    private String UsernameText, PasswordText;
     private SharedPreferences mpreferences;
     private SharedPreferences.Editor mEditor;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference docRef;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private DocumentReference docRef;
     private FirebaseAuth mAuth;
+    String customerID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(final FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
-            docRef = db.collection("users").document(user.getEmail());
+            docRef = db.collection("Users").document(user.getEmail());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -97,14 +98,16 @@ public class LoginActivity extends AppCompatActivity {
                         if (document.exists()) {
                             mEditor=mpreferences.edit();
                             mEditor.putString(getString(R.string.user_email),user.getEmail());
+                            customerID = document.get("customerID").toString();
+                            mEditor.putString(getString(R.string.user_id), customerID);
+                            //mEditor.putString(getString(R.string.user_name),document.get("fullName").toString());
                             mEditor.apply();
                             mEditor.commit();
-                            Log.d(TAG, "DocumentSnapshot data: " + document.get("Type"));
-                            if (document.get("Type").equals("Customer")) {
+                            //getCustomerDetails(document.get("Type").toString());
+                            if (document.get("Type").toString().equals("Customer")) {
                                 Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
-//                                intent.putExtra("",)
                                 startActivity(intent);
-                            }else if (document.get("Type").equals("Repairman")){
+                            } else if (document.get("Type").toString().equals("Repairman")) {
                                 Intent intent = new Intent(getApplicationContext(), HireRepairman.class);
                                 startActivity(intent);
                             }
@@ -116,17 +119,33 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
-//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
-//            mStatusTextView.setText(R.string.signed_out);
-//            mDetailTextView.setText(null);
-
-//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
+    }
+
+    private void getCustomerDetails(final String type) {
+        Log.d(TAG, "Customer ID " + customerID);
+        docRef = db.collection("Customer").document(customerID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        mEditor = mpreferences.edit();
+                        //mEditor.putString(getString(R.string.user_name),document.get("fullName").toString());
+                        //mEditor.putString(getString(R.string.phone_number),document.get("phoneNo").toString());
+                        mEditor.apply();
+                        mEditor.commit();
+                        //Log.d(TAG, "DocumentSnapshot data: " + document.get("Type"));
+
+                    } else {
+                        Log.d(TAG, "No such customer");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 }

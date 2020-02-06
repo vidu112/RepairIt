@@ -33,14 +33,14 @@ import java.util.List;
 public class CustomerActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "CustomerActivity";
     private TextView mTextMessage;
-    ArrayList<Repairman> repairmanList;
-    RepairmanAdapter repairmanAdapter;
+    private ArrayList<Repairman> repairmanList;
+    private RepairmanAdapter repairmanAdapter;
     private String repairmanType = "All";
     private Spinner repairmanDropDown;
     private SharedPreferences mpreferences;
     private ListView RepairmanListView;
     private String userEmail;
-    FirebaseUser currentUser;
+    private FirebaseUser currentUser;
     private Button search;
     private List<String> typeofRepairman;
     private SharedPreferences.Editor mEditor;
@@ -140,6 +140,12 @@ public class CustomerActivity extends AppCompatActivity implements AdapterView.O
     public void SignOut(View view) {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                                intent.putExtra("",)
+        startActivity(intent);
+    }
+
+    public void Hires(View view) {
+        Intent intent = new Intent(getApplicationContext(), CustomerHires.class);
 //                                intent.putExtra("",)
         startActivity(intent);
     }

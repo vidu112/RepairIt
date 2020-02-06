@@ -95,8 +95,20 @@
         android:onClick="SignOut"
         android:text="SignOut"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repairmen_drop_down" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="Hires"
+        android:text="HIres"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toEndOf="@+id/signout"
         app:layout_constraintTop_toBottomOf="@+id/repairmen_drop_down" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

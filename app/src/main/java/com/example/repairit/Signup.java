@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +30,10 @@ public class Signup extends AppCompatActivity {
     EditText Name, Email, Password, PhoneNumber;
     FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private SharedPreferences mpreferences;
+    private SharedPreferences.Editor mEditor;
+    private String CustomerId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +45,12 @@ public class Signup extends AppCompatActivity {
         Email = findViewById(R.id.email);
         Password = findViewById(R.id.password);
         PhoneNumber = findViewById(R.id.phone);
+        mpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
     }
 
     public void SignUp(View view) {
+        CustomerId = getID();
         String emailText = Email.getText().toString();
         String passwordText = Password.getText().toString();
         String nameText = Name.getText().toString();
@@ -53,7 +63,7 @@ public class Signup extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
-                                CreateUserAcount();
+                                CreateCustomer();
 
                             } else {
 
@@ -81,15 +91,14 @@ public class Signup extends AppCompatActivity {
 
     public void CreateUserAcount() {
         Map<String, Object> customer = new HashMap<>();
-        customer.put("CustomerName", Name.getText().toString());
-        customer.put("CustomerPhoneNumber", PhoneNumber.getText().toString());
-        customer.put("Type", "Customer");
-        db.collection("users").document(Email.getText().toString())
+        customer.put("type", "Customer");
+        customer.put("customerID", CustomerId);
+        db.collection("Users").document(Email.getText().toString())
                 .set(customer)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Log.d(TAG, "Added User AccountS!");
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                     }
@@ -100,5 +109,34 @@ public class Signup extends AppCompatActivity {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+
+    public void CreateCustomer() {
+
+        Customer customer = new Customer(Name.getText().toString(), PhoneNumber.getText().toString(), Email.getText().toString(), "06/11/200");
+        db.collection("Customer").document(CustomerId)
+                .set(customer)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Created Customer Object!");
+                        CreateUserAcount();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+
+    public String getID() { //creating a unique a id
+        Date dte = new Date();
+        long milliSeconds = dte.getTime();
+        String strLong = Long.toString(milliSeconds);
+        return strLong;
+
     }
 }
