@@ -29,15 +29,15 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText Username, Password;
+    String customerID;
     private static  String TAG="LoginActivity";
-    private String UsernameText, PasswordText;
+    private EditText Username, Password;
     private SharedPreferences mpreferences;
     private SharedPreferences.Editor mEditor;
+    private String UsernameText, PasswordText;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference docRef;
     private FirebaseAuth mAuth;
-    String customerID;
+    private DocumentReference docRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Signup.class);
         startActivity(intent);
     }
+
     private void updateUI(final FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
                                 startActivity(intent);
                             } else if (document.get("Type").toString().equals("Repairman")) {
+
                                 Intent intent = new Intent(getApplicationContext(), HireRepairman.class);
                                 startActivity(intent);
                             }

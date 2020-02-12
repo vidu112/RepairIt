@@ -14,21 +14,22 @@ public class HiresClass {
     private String RepairmanID;
     private String CustomerID;
 
-    public HiresClass(String customerName, String customerPaidPrice, String date, String repairmanID, String repairmanName, String repairmanEmail, String repairmanType, String description, String status, String hireLocLat, String hireLocLon, String customerID) {
-        CustomerName = customerName;
-        Price = customerPaidPrice;
-        Date = date;
-        RepairmanID = repairmanID;
-        RepairmanName = repairmanName;
-        RepairmanEmail = repairmanEmail;
-        RepairmanType = repairmanType;
-        Description = description;
-        Status = status;
-        HireLocLat = hireLocLat;
-        HireLocLon = hireLocLon;
-        CustomerID = customerID;
+    public HiresClass(String customerName, String customerPaidPrice, String date, String repairmanID, String repairmanName, String repairmanEmail, String repairmanType, String description, String status, String hireLocLat, String hireLocLon, String customerID)
+        {
 
-    }
+            CustomerName = customerName;
+            Price = customerPaidPrice;
+            Date = date;
+            RepairmanID = repairmanID;
+            RepairmanName = repairmanName;
+            RepairmanEmail = repairmanEmail;
+            RepairmanType = repairmanType;
+            Description = description;
+            Status = status;
+            HireLocLat = hireLocLat;
+            HireLocLon = hireLocLon;
+            CustomerID = customerID;
+        }
 
 
     public String getStatus() {
@@ -42,7 +43,6 @@ public class HiresClass {
     public String getCustomerID() {
         return CustomerID;
     }
-
     public String getHireLocLat() {
         return HireLocLat;
     }

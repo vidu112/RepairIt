@@ -100,6 +100,59 @@ public class HireRepairman extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "created Hire in Hires");
+                        HiresClass hiresClass = new HiresClass("Vidu", RepairmanPriceText, datePicker.getDayOfMonth() + "/" + (datePicker.getMonth() + 1) + "/" + datePicker.getYear(), RepairmanID, RepairmanNameText, RepairmanEmailText, RepairmanTypeText
+                                , descriptionTextField.getText().toString(), "NotAccepted", "0.0", "0.0", "");
+                        hireID = getID();
+                        db.collection("Hires").document(hireID)
+                                .set(hiresClass)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "created Hire in Hires");
+                                        AddTaskToRepairman();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    }
+                });
+
+
+    }
+
+    private void AddTaskToRepairman() {
+        Map<String, Object> task = new HashMap<>();
+        task.put("HireID", hireID);
+        db.collection("repairmen/" + RepairmanID + "/task").document()
+                .set(task)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Task Added to repairmen");
+                        AddHireToCustomer();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    private void AddHireToCustomer() {
+        Map<String, Object> task = new HashMap<>();
+        task.put("HireID", hireID);
+        db.collection("Customer/" + userID + "/task").document()
+                .set(task)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Hire Added to customer tasks branch");
                         Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
 //                                intent.putExtra("",)
                         startActivity(intent);
@@ -114,7 +167,6 @@ public class HireRepairman extends AppCompatActivity {
                 });
     }
 
-
     public String getID() { //creating a unique a id
         Date dte = new Date();
         long milliSeconds = dte.getTime();
@@ -122,4 +174,6 @@ public class HireRepairman extends AppCompatActivity {
         return strLong;
 
     }
+
 }
+
